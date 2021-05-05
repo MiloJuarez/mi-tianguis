@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mi_tianguis/models/shopping_list.dart';
 import 'package:mi_tianguis/widgets/app-bar.dart';
 import 'package:mi_tianguis/widgets/cart-lista-compras.dart';
 
@@ -21,36 +22,29 @@ class _MainScreenState extends State<MainScreen> {
   ListView _body(BuildContext context) {
     return ListView(
       children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        Stack(
           children: [
-            Stack(
-              alignment: Alignment.topCenter,
-              children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height - 50,
-                  margin: EdgeInsets.only(top: 55.0),
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/imgs/cutting_board.jpg"),
-                      alignment: Alignment.topCenter,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                  child: GridView.count(
-                    primary: false,
-                    padding: EdgeInsets.all(16.0),
-                    mainAxisSpacing: 10.0,
-                    crossAxisSpacing: 10.0,
-                    crossAxisCount: 2,
-                    children: doomyWidgets(context),
-                  ),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height - 75,
+              margin: EdgeInsets.only(top: 55.0),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/imgs/cutting_board.jpg"),
+                  alignment: Alignment.topCenter,
+                  fit: BoxFit.fill,
                 ),
-                MtAppBar(),
-              ],
+              ),
+              child: GridView.count(
+                primary: false,
+                padding: EdgeInsets.all(16.0),
+                mainAxisSpacing: 10.0,
+                crossAxisSpacing: 10.0,
+                crossAxisCount: 2,
+                children: doomyWidgets(context),
+              ),
             ),
+            MtAppBar()
           ],
         ),
       ],
@@ -59,8 +53,13 @@ class _MainScreenState extends State<MainScreen> {
 
   List<Widget> doomyWidgets(BuildContext context) {
     List<Widget> lstDommyConts = [];
-    for (int i = 0; i < 20; i++) {
-      lstDommyConts.add(MtCardListaCompra(listTitle: "Shooping list $i"));
+    for (int i = 0; i < 5; i++) {
+      ShoppingList _shoppingLst =
+          ShoppingList(backgroundImg: "assets/imgs/shopping_list.png");
+      lstDommyConts.add(MtCardShoppingList(
+        listTitle: "Shooping list $i",
+        shoppingList: _shoppingLst,
+      ));
     }
     return lstDommyConts;
   }
