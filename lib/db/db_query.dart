@@ -6,9 +6,7 @@ class DBQuery<T> implements IFilterOperation, IFilterProduct {
   Future<List<T>> getAll() {}
 
   @override
-  Future<T> getById(int id) {
-    String dbName = T.noSuchMethod(Invocation.method(Symbol("getTblName"), []));
-  }
+  Future<T> getById(int id) {}
 
   @override
   Future<List<T>> getByCatId(int idCat) {
