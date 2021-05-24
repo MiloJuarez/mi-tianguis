@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mi_tianguis/models/db_query_interface.dart';
+import 'package:mi_tianguis/models/product.dart';
 import 'package:mi_tianguis/models/shopping_list.dart';
 import 'package:mi_tianguis/widgets/app-bar.dart';
 import 'package:mi_tianguis/widgets/cart-lista-compras.dart';
@@ -49,6 +51,17 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ],
     );
+  }
+
+  Future<int> stuff() async {
+    Product _product = Product(
+        amount: 5,
+        code: "ASAE#\$%",
+        description: "Stuff product",
+        id: 1,
+        idCat: 1,
+        name: "Stuff",
+        unit: "PZ");
   }
 
   List<Widget> doomyWidgets(BuildContext context) {
