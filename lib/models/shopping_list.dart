@@ -2,11 +2,10 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
-import 'package:mi_tianguis/models/map_operation_interface.dart';
 import 'package:mi_tianguis/models/model.dart';
 import 'package:mi_tianguis/models/product.dart';
 
-class ShoppingList with ChangeNotifier implements IModel, IMapOperation {
+class ShoppingList with ChangeNotifier implements IModel {
   int id;
   String name;
   String description;

@@ -1,7 +1,6 @@
-import 'map_operation_interface.dart';
 import 'model.dart';
 
-class Product implements IModel, IMapOperation {
+class Product implements IModel {
   int id;
   int idCat;
   String code;

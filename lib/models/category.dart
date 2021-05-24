@@ -1,7 +1,6 @@
 import 'package:mi_tianguis/models/model.dart';
-import 'package:mi_tianguis/models/map_operation_interface.dart';
 
-class Category implements IModel, IMapOperation {
+class Category implements IModel {
   int id;
   String name;
   String description;
