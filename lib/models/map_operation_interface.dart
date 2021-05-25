@@ -1,5 +1,5 @@
 class IMapOperation<T> {
-  Map<String, String> toMap() => Map();
+  Map<String, dynamic> toMap() => Map();
   // ignore: missing_return
-  T fromMap(Map<String, String> map) {}
+  T fromMap(Map<String, dynamic> map) {}
 }

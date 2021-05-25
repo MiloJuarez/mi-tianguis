@@ -17,6 +17,9 @@ class Product implements IModel {
     this.description,
     this.unit,
     this.amount,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
   });
 
   int get getIdCat => this.idCat;
@@ -25,9 +28,11 @@ class Product implements IModel {
   String get getDesc => this.description;
   String get getUnit => this.unit;
   double get getAmount => this.amount;
+  String get getCreated => this.createdAt;
+  String get getUpdated => this.updatedAt;
 
   @override
-  Product fromMap(Map<String, String> map) {
+  Product fromMap(Map<String, dynamic> map) {
     return new Product(
       id: int.tryParse(map["id"]),
       idCat: int.tryParse(map["id_cat"]),
@@ -36,12 +41,15 @@ class Product implements IModel {
       description: map["description"],
       unit: map["unit"],
       amount: double.tryParse(map["amount"]),
+      createdAt: map["created_at"],
+      updatedAt: map["updated_at"],
+      deletedAt: map["deleted_at"],
     );
   }
 
   @override
-  Map<String, String> toMap() {
-    Map<String, String> map = Map<String, String>();
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = Map();
     map["id"] = "${this.id}";
     map["id_cat"] = "${this.idCat}";
     map["code"] = this.code;
@@ -49,6 +57,9 @@ class Product implements IModel {
     map["description"] = this.description;
     map["unit"] = this.unit;
     map["amount"] = "${this.amount}";
+    map["created_at"] = this.createdAt;
+    map["updated_at"] = this.updatedAt;
+    map["deleted_at"] = this.deletedAt;
     return map;
   }
 
@@ -57,4 +68,13 @@ class Product implements IModel {
 
   @override
   String get getTblName => "product";
+
+  @override
+  String createdAt;
+
+  @override
+  String deletedAt;
+
+  @override
+  String updatedAt;
 }

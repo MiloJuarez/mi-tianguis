@@ -14,9 +14,6 @@ class ShoppingList with ChangeNotifier implements IModel {
   double subtotal;
   int timeUsed;
   String backgroundImg;
-  String createdAt;
-  String updatedAt;
-  String deletedAt;
 
   ShoppingList({
     this.id = 0,
@@ -72,7 +69,7 @@ class ShoppingList with ChangeNotifier implements IModel {
   void remove(Product product) {}
 
   @override
-  ShoppingList fromMap(Map<String, String> map) {
+  ShoppingList fromMap(Map<String, dynamic> map) {
     return ShoppingList(
       id: int.tryParse(map["id"]),
       name: map["name"],
@@ -87,8 +84,8 @@ class ShoppingList with ChangeNotifier implements IModel {
   }
 
   @override
-  Map<String, String> toMap() {
-    Map<String, String> map = Map<String, String>();
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = Map();
     if (this.id > 0) {
       map["id"] = "${this.id}";
     }
@@ -108,4 +105,13 @@ class ShoppingList with ChangeNotifier implements IModel {
 
   @override
   String get getTblName => "shopping_list";
+
+  @override
+  String createdAt;
+
+  @override
+  String deletedAt;
+
+  @override
+  String updatedAt;
 }

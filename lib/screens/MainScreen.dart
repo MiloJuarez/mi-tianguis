@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mi_tianguis/db/db_query.dart';
 import 'package:mi_tianguis/models/shopping_list.dart';
+import 'package:mi_tianguis/utils/styles.dart';
 import 'package:mi_tianguis/widgets/app-bar.dart';
 import 'package:mi_tianguis/widgets/cart-lista-compras.dart';
 
@@ -12,10 +14,39 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  List<ShoppingList> _lstShop;
+  bool _reloading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (_lstShop == null) {
+      _lstShop = _lstShop;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _body(context),
+      body: RefreshIndicator(
+        child: FutureBuilder(
+          future: _getLstShop(),
+          builder: (
+            BuildContext context,
+            AsyncSnapshot<List<ShoppingList>> lstShop,
+          ) {
+            if (lstShop.connectionState == ConnectionState.waiting) {
+              return loadingWidget(context);
+            } else if (lstShop.hasData == false || _reloading == true) {
+              return reloadWidget(context);
+            } else {
+              return _body(context);
+            }
+          },
+        ),
+        onRefresh: () => refresh(),
+        triggerMode: RefreshIndicatorTriggerMode.onEdge,
+      ),
     );
   }
 
@@ -41,7 +72,7 @@ class _MainScreenState extends State<MainScreen> {
                 mainAxisSpacing: 10.0,
                 crossAxisSpacing: 10.0,
                 crossAxisCount: 2,
-                children: doomyWidgets(context),
+                children: _widgetsShopList(context),
               ),
             ),
             MtAppBar()
@@ -51,16 +82,53 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  List<Widget> doomyWidgets(BuildContext context) {
-    List<Widget> lstDommyConts = [];
-    for (int i = 0; i < 5; i++) {
-      ShoppingList _shoppingLst =
-          ShoppingList(backgroundImg: "assets/imgs/shopping_list.png");
-      lstDommyConts.add(MtCardShoppingList(
-        listTitle: "Shooping list $i",
-        shoppingList: _shoppingLst,
-      ));
+  Center loadingWidget(BuildContext context) {
+    return Center(
+      child: CircularProgressIndicator(
+        backgroundColor: Theme.of(context).primaryColor,
+        strokeWidth: 1.3,
+        semanticsLabel: "Cargando ...",
+      ),
+    );
+  }
+
+  ElevatedButton reloadWidget(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        setState(() {
+          _reloading = !_reloading;
+          _getLstShop().then((value) => _reloading = !_reloading);
+        });
+      },
+      child: TextStyleds.subtitleMedium("Recargar", context),
+    );
+  }
+
+  Future<Null> refresh() async {
+    await Future.delayed(
+      Duration(seconds: 2, milliseconds: 500),
+      () => _getLstShop(),
+    );
+  }
+
+  Future<List<ShoppingList>> _getLstShop() async {
+    List<ShoppingList> lstShop =
+        await DBQuery<ShoppingList>().getAll(ShoppingList());
+    if (lstShop != null) {
+      setState(() {
+        _lstShop = lstShop;
+      });
     }
-    return lstDommyConts;
+    return _lstShop;
+  }
+
+  List<Widget> _widgetsShopList(BuildContext context) {
+    List<Widget> lstWidgetShop = [];
+    _lstShop.forEach(
+      (shopList) => lstWidgetShop.add(
+        MtCardShoppingList(shoppingList: shopList),
+      ),
+    );
+    return lstWidgetShop;
   }
 }
