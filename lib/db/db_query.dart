@@ -6,18 +6,9 @@ import 'package:mi_tianguis/models/model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DBQuery<T> implements IFilterOperation, IFilterProduct {
-  /* static DBQuery _qInstance;
-
-  DBQuery._instance();
-
-  static DBQuery get instance => DBQuery();
-
-  factory DBQuery() {
-    return _qInstance ?? (_qInstance = DBQuery._instance());
-  } */
-
   Future<Batch> _getBatch() async {
-    Database _db = await AppDB.getDB;
+    AppDB _appDB = AppDB();
+    Database _db = await _appDB.getDB;
     Batch batch = _db.batch();
     return batch;
   }

@@ -10,9 +10,9 @@ class SchemaDB {
       updated_at DATETIME NOT NULL,
       deleted_at DATETIME
     );
-
+:
     CREATE INDEX IF NOT EXISTS index_id_cat ON category(id);
-
+:
     CREATE TABLE IF NOT EXISTS product(
       id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
       id_cat INTEGER NOT NULL,
@@ -26,9 +26,9 @@ class SchemaDB {
       FOREIGN KEY(id_cat) REFERENCES category(id) ON UPDATE CASCADE
       ON DELETE CASCADE
     );
-
+:
     CREATE INDEX IF NOT EXISTS index_id_prod ON product(id);
-
+:
     CREATE TABLE IF NOT EXISTS shopping_list(
       id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
       name VARCHAR(150) NOT NULL,
@@ -37,9 +37,9 @@ class SchemaDB {
       background_img VARCHAR(25),
       created_at DATETIME NOT NULL,
       updated_at DATETIME NOT NULL,
-      deleted_at DATETIME,
+      deleted_at DATETIME
     );
-
+:
     CREATE TABLE IF NOT EXISTS product_shopping_list(
       id_shop INTEGER NOT NULL,
       id_product INTEGER NOT NULL,
@@ -50,12 +50,12 @@ class SchemaDB {
       FOREIGN KEY(id_product) REFERENCES product(id) ON UPDATE CASCADE
       ON DELETE CASCADE
     );
-
+:
     CREATE TABLE IF NOT EXISTS logs(
       id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
       message VARCHAR(255) NOT NULL,
       times_repeated INTEGER NOT NULL,
-      threw_at DATETIME NOT NULL,
+      threw_at DATETIME NOT NULL
     );
     """,
     // Version 2

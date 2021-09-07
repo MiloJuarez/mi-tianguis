@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class TextStyleds {
+class MtStyles {
   static Center titleBold(String text) {
     return Center(
       child: Text(
@@ -23,7 +23,7 @@ class TextStyleds {
       textAlign: TextAlign.justify,
       style: TextStyle(
         fontFamily: "CaveatMedium",
-        color: Theme.of(context).primaryColor,
+        color: Colors.white,
         fontSize: 20.0,
       ),
     );
@@ -36,8 +36,26 @@ class TextStyleds {
       textAlign: TextAlign.justify,
       style: TextStyle(
         fontFamily: "CaveatRegular",
-        color: Theme.of(context).primaryColor,
+        color: Colors.white,
         fontSize: 18.0,
+      ),
+    );
+  }
+
+  static ButtonStyle buttonStyle(BuildContext context) {
+    return ElevatedButton.styleFrom(
+      primary: Theme.of(context).primaryColor,
+      minimumSize: Size(80.0, 30.0),
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      shadowColor: Colors.black,
+      onSurface: Colors.white,
+      animationDuration: Duration(milliseconds: 1500),
+      side: BorderSide(color: Colors.white),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(5.0),
+        ),
       ),
     );
   }

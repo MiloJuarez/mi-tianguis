@@ -28,7 +28,7 @@ class _MtCardShoppingListState extends State<MtCardShoppingList> {
       child: Stack(
         children: [
           Center(
-            child: TextStyleds.subtitleMedium(
+            child: MtStyles.subtitleMedium(
               widget.shoppingList.name,
               context,
             ),

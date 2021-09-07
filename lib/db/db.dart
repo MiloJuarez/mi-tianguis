@@ -13,11 +13,11 @@ class AppDB {
     return _appDB ?? (_appDB = AppDB._instance());
   }
 
-  static Future<Database> get getDB async {
+  Future<Database> get getDB async {
     return _database ?? (_database = await _initializeDB());
   }
 
-  static Future<Database> _initializeDB() async {
+  Future<Database> _initializeDB() async {
     String rootDir = await getDatabasesPath();
     String pathDB = rootDir +
         (Platform.isIOS == false ? "tianguisdb.db" : "/tianguisdb.db");
@@ -27,9 +27,10 @@ class AppDB {
     return appDB;
   }
 
-  static void _onCreate(Database db, int version) async {
+  Future<void> _onCreate(Database db, int version) async {
     Batch batch = db.batch();
-    batch.execute(SchemaDB.getCurrentSchema);
+    List<String> lstTables = SchemaDB.getCurrentSchema.split(':');
+    lstTables.forEach((table) => batch.execute(table));
     await batch.commit(continueOnError: false, noResult: true);
   }
 }

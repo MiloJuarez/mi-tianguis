@@ -1,17 +1,27 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mi_tianguis/utils/styles.dart';
 
-class MtAppBar extends StatelessWidget {
+class MtAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final BuildContext context;
+
+  MtAppBar({@required this.context});
+
   @override
   Widget build(BuildContext context) {
+    // return AppBar(
+    //   title: TextStyleds.titleBold("Mi Tianguis"),
+    //   backgroundColor: Theme.of(context).primaryColor,
+    //   elevation: 5.0,
+    // );
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 60.0,
-      child: TextStyleds.titleBold("Mi Tianguis - Lista de compras"),
+      child: MtStyles.titleBold("Mi Tianguis - Lista de compras"),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
-          bottomRight: Radius.circular(10.0),
-          bottomLeft: Radius.circular(10.0),
+          bottomRight: Radius.circular(8.0),
+          bottomLeft: Radius.circular(8.0),
         ),
         boxShadow: [
           BoxShadow(
@@ -21,8 +31,11 @@ class MtAppBar extends StatelessWidget {
             spreadRadius: 2.0,
           ),
         ],
-        color: Color.fromRGBO(2, 51, 102, 1),
+        color: Theme.of(context).primaryColor,
       ),
     );
   }
+
+  @override
+  Size get preferredSize => Size(MediaQuery.of(this.context).size.width, 50.0);
 }

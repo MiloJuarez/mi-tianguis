@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:mi_tianguis/db/db_query.dart';
 import 'package:mi_tianguis/models/shopping_list.dart';
 import 'package:mi_tianguis/utils/styles.dart';
@@ -28,6 +29,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
       body: RefreshIndicator(
         child: FutureBuilder(
           future: _getLstShop(),
@@ -35,12 +37,12 @@ class _MainScreenState extends State<MainScreen> {
             BuildContext context,
             AsyncSnapshot<List<ShoppingList>> lstShop,
           ) {
-            if (lstShop.connectionState == ConnectionState.waiting) {
+            if (lstShop.connectionState == ConnectionState.active) {
               return loadingWidget(context);
-            } else if (lstShop.hasData == false || _reloading == true) {
+            } else if (lstShop.hasData == false) {
               return reloadWidget(context);
             } else {
-              return _body(context);
+              return _body(context, lstShop.data);
             }
           },
         ),
@@ -50,32 +52,34 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  ListView _body(BuildContext context) {
+  ListView _body(BuildContext context, List<ShoppingList> lstShopping) {
     return ListView(
       children: [
         Stack(
           children: [
             Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height - 75,
+              height: MediaQuery.of(context).size.height - 75.0,
               margin: EdgeInsets.only(top: 55.0),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/imgs/cutting_board.jpg"),
-                  alignment: Alignment.topCenter,
-                  fit: BoxFit.fill,
-                ),
-              ),
-              child: GridView.count(
-                primary: false,
-                padding: EdgeInsets.all(16.0),
-                mainAxisSpacing: 10.0,
-                crossAxisSpacing: 10.0,
-                crossAxisCount: 2,
-                children: _widgetsShopList(context),
-              ),
+              // decoration: BoxDecoration(
+              //   image: DecorationImage(
+              //     image: AssetImage("assets/imgs/cutting_board.jpg"),
+              //     alignment: Alignment.topCenter,
+              //     fit: BoxFit.fill,
+              //   ),
+              // ),
+              child: lstShopping.length > 0
+                  ? GridView.count(
+                      primary: false,
+                      padding: EdgeInsets.all(16.0),
+                      mainAxisSpacing: 10.0,
+                      crossAxisSpacing: 10.0,
+                      crossAxisCount: 2,
+                      children: _widgetsShopList(context, lstShopping),
+                    )
+                  : _noShoppingList(context),
             ),
-            MtAppBar()
+            MtAppBar(context: context),
           ],
         ),
       ],
@@ -92,15 +96,18 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  ElevatedButton reloadWidget(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        setState(() {
-          _reloading = !_reloading;
-          _getLstShop().then((value) => _reloading = !_reloading);
-        });
-      },
-      child: TextStyleds.subtitleMedium("Recargar", context),
+  Center reloadWidget(BuildContext context) {
+    return Center(
+      child: ElevatedButton(
+        style: MtStyles.buttonStyle(context),
+        onPressed: () {
+          setState(() {
+            _reloading = !_reloading;
+            _getLstShop().then((value) => _reloading = !_reloading);
+          });
+        },
+        child: MtStyles.subtitleMedium("Recargar", context),
+      ),
     );
   }
 
@@ -122,13 +129,34 @@ class _MainScreenState extends State<MainScreen> {
     return _lstShop;
   }
 
-  List<Widget> _widgetsShopList(BuildContext context) {
+  List<Widget> _widgetsShopList(
+      BuildContext context, List<ShoppingList> lstShopping) {
     List<Widget> lstWidgetShop = [];
-    _lstShop.forEach(
+    lstShopping.forEach(
       (shopList) => lstWidgetShop.add(
         MtCardShoppingList(shoppingList: shopList),
       ),
     );
     return lstWidgetShop;
+  }
+
+  Column _noShoppingList(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        MtStyles.subtitleMedium("Aun no tienes listas de compras", context),
+        Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width / 3,
+            child: ElevatedButton(
+              style: MtStyles.buttonStyle(context),
+              onPressed: () {},
+              child: MtStyles.contentRegular("Agregar nuevo", context),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
