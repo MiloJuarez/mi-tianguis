@@ -61,13 +61,13 @@ class _MainScreenState extends State<MainScreen> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height - 75.0,
               margin: EdgeInsets.only(top: 55.0),
-              // decoration: BoxDecoration(
-              //   image: DecorationImage(
-              //     image: AssetImage("assets/imgs/cutting_board.jpg"),
-              //     alignment: Alignment.topCenter,
-              //     fit: BoxFit.fill,
-              //   ),
-              // ),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/imgs/bg.png"),
+                  alignment: Alignment.topCenter,
+                  fit: BoxFit.fill,
+                ),
+              ),
               child: lstShopping.length > 0
                   ? GridView.count(
                       primary: false,
@@ -145,14 +145,14 @@ class _MainScreenState extends State<MainScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        MtStyles.subtitleMedium("Aun no tienes listas de compras", context),
+        MtStyles.subtitleMedium("Aun no tienes listas de compra", context),
         Center(
           child: Container(
             width: MediaQuery.of(context).size.width / 3,
             child: ElevatedButton(
               style: MtStyles.buttonStyle(context),
               onPressed: () {},
-              child: MtStyles.contentRegular("Agregar nuevo", context),
+              child: MtStyles.titleBold("Agregar lista"),
             ),
           ),
         ),

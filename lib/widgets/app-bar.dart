@@ -17,7 +17,7 @@ class MtAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 60.0,
-      child: MtStyles.titleBold("Mi Tianguis - Lista de compras"),
+      child: MtStyles.titleBold("Mi Tianguis - Listas de compra"),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
           bottomRight: Radius.circular(8.0),

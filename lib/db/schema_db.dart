@@ -20,6 +20,8 @@ class SchemaDB {
       name VARCHAR(150) NOT NULL,
       description VARCHAR(255),
       unit VARCHAR(3) NOT NULL,
+      price DECIMAL(7,2) NOT NULL,
+      like INTEGER,
       created_at DATETIME NOT NULL,
       updated_at DATETIME NOT NULL,
       deleted_at DATETIME,
